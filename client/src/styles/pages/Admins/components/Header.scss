@@ -1,0 +1,47 @@
+@import '../../../variables';
+
+.dashboard-header {
+  background-color: white;
+  padding: 0 24px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e0e0;
+  
+  .header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    h1 {
+      font-family: $palatino;
+      color: $main-color;
+      font-size: 24px;
+      margin: 0;
+    }
+    
+    .admin-info {
+      color: $main-color;
+      font-family: $palatino;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 0 16px;
+    height: 60px;
+    
+    .header-content {
+      h1 {
+        font-size: 20px;
+      }
+      
+      .admin-info {
+        font-size: 14px;
+      }
+    }
+  }
+}

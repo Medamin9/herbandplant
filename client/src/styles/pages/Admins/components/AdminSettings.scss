@@ -1,0 +1,67 @@
+@import '../../../variables';
+
+.admin-settings {
+  .settings-form {
+    max-width: 500px;
+    
+    .form-group {
+      margin-bottom: 20px;
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: $main-color;
+      }
+      
+      .input-wrapper {
+        position: relative;
+        
+        .input-icon {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #666;
+        }
+        
+        input {
+          width: 100%;
+          padding: 12px 12px 12px 40px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-family: $palatino;
+          
+          &:focus {
+            outline: none;
+            border-color: $main-color;
+          }
+        }
+      }
+    }
+    
+    .error-message {
+      background-color: #fee;
+      color: #c33;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      border-left: 4px solid #c33;
+    }
+    
+    .success-message {
+      background-color: #efe;
+      color: #363;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      border-left: 4px solid #363;
+    }
+    
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}

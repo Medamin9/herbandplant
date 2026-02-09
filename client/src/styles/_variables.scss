@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'palatino';
+    src: url('./fonts/Palatino_Linotype/palatinolinotype_roman.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'cormorant-bold';
+    src: url('./fonts/Cormorant_Garamond/CormorantGaramond-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'cormorant-reg';
+    src: url('./fonts/Cormorant_Garamond/CormorantGaramond-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url('./fonts/inter/Inter-Regular.otf') format('opentype');
+}
+
+$palatino: 'palatino';
+$cormorant-bold: 'cormorant-bold';
+$cormorant-reg: 'cormorant-reg';
+$inter: 'Inter-Regular';
+$main-color: #259238;
+
+body, html{
+    margin: 0;
+    padding: 0;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: $palatino;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}

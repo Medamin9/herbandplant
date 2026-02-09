@@ -1,0 +1,154 @@
+@import '../variables';
+
+.product-card{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 310px;
+    height: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: 0;
+    &:hover{
+        transform: scale(1.05);
+    }
+    .product-card-image{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+
+        .promo-card{
+            position: absolute;
+            top: 2.5%;
+            left: 5%;
+            background-color: #ED1C24;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-family: $palatino;
+            font-size: 14px;
+            font-weight: 100;
+            border-radius: 25px;
+        }
+
+        .top-card{
+            position: absolute;
+            top: 2.5%;
+            left: 5%;
+            background-color: #FFAE00;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-family: $palatino;
+            font-size: 14px;
+            font-weight: 100;
+            border-radius: 25px;
+        }
+
+        .new-card{
+            position: absolute;
+            top: 2.5%;
+            left: 5%;
+            background-color: $main-color;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-family: $palatino;
+            font-size: 13px;
+            font-weight: 100;
+            border-radius: 25px;
+        }
+
+        .out-card{
+            position: absolute;
+            top: 2.5%;
+            left: 2.5%;
+            background-color: black;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-family: $palatino;
+            font-size: 13px;
+            font-weight: 100;
+            border-radius: 25px;
+        }
+    }
+    
+
+    .product-info{
+        margin: 0;
+        padding: 0.5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+
+        h3{
+            font-family: $palatino;
+            font-weight: 100;
+            font-size: 16px;
+        }
+
+        .product-card-price{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .price-section{
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                .old-price{
+                    text-decoration: line-through;
+                    text-decoration-color: #ED1C24;
+                    font-family: $palatino;
+                    font-size: 16px;
+                    font-weight: 100;
+                    font-family: $palatino;
+                }
+
+                .new-price{
+                    font-family: $palatino;
+                    font-size: 16px;
+                    color: #ED1C24;
+                    font-weight: 100;
+                }
+            }
+            .origin-price{
+                font-family: $palatino;
+                font-size: 16px;
+                font-weight: 100;
+            }
+        }
+    }
+
+    .product-actions{
+        width: 100%;
+        background-color: transparent;
+        border: 1px solid black;
+        margin: 0.5rem 0 0 0;
+        padding: 0.75rem 0;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        font-family: $palatino;
+        font-size: 14px;
+        &:hover{
+            background-color: $main-color;
+            border: 1px solid $main-color;
+            color: white;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .product-card{
+        width: 100%;
+        height: auto;
+    }
+}

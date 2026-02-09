@@ -1,0 +1,131 @@
+@import '../../../variables';
+
+.admin-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: $main-color;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+
+  .sidebar-header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    h2 {
+      font-family: $palatino;
+      font-size: 20px;
+      margin: 0;
+    }
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 0;
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+      
+      &.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        border-right: 3px solid $main-color;
+      }
+      
+      .nav-icon {
+        margin-right: 12px;
+        font-size: 20px;
+      }
+      
+      .nav-label {
+        font-family: $palatino;
+      }
+    }
+  }
+
+  .sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      
+      svg {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    top: auto;
+    flex-direction: row;
+    
+    .sidebar-header {
+      display: none;
+    }
+    
+    .sidebar-nav {
+      display: flex;
+      padding: 0;
+      
+      .nav-item {
+        flex-direction: column;
+        padding: 12px 8px;
+        
+        .nav-icon {
+          margin-right: 0;
+          margin-bottom: 4px;
+          font-size: 18px;
+        }
+        
+        .nav-label {
+          font-size: 12px;
+        }
+      }
+    }
+    
+    .sidebar-footer {
+      display: none;
+    }
+  }
+  
+  .dashboard-content {
+    margin-left: 0;
+    margin-bottom: 60px;
+  }
+}
