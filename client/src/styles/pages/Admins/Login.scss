@@ -178,11 +178,11 @@
 // Responsive design
 @media (max-width: 480px) {
   .admin-login {
-    padding: 10px;
+    padding: 2px;
     
     .login-container {
       padding: 30px 20px;
-      
+      width: 85%;
       .login-header {
         h1 {
           font-size: 24px;

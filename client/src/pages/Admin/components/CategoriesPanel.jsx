@@ -125,7 +125,15 @@ const CategoriesPanel = () => {
   };
 
   if (loading) return (
-    <div className="loading-container">
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      fontSize: '18px',
+      color: '#6c757d'
+    }}>
       <div className="loading-spinner"></div>
       <p>Loading categories...</p>
     </div>

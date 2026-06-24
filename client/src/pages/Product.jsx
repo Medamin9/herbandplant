@@ -9,6 +9,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { useCart } from '../context/CartContext';
 import CartSidebar from "../components/CartSidebar";
 import gift from '../assets/icons/gift.svg';
+import topBanner from '../assets/topbanner.svg';
 
 const Product = () => {
     const { name } = useParams();
@@ -257,28 +258,33 @@ const Product = () => {
                 )}
             </div>
             {window.innerWidth > 768 ? (
-                <div className='top-products-container'> 
+                <div className='top-ventes-section-desktop'> 
                     <h2> Top ventes </h2>
-                    {homeData.topSellingProducts.length  > 0 ? (
-                        <div className='top-products-grid'>
-                            <div className='top-found top-selling-grid'>
-                                {displayedTopSelling.map((product, index) => (
-                                    <ProductCard 
-                                        key={index} 
-                                        product={product} 
-                                        addToCartState={false} 
-                                        showInfo={index !== 0}
-                                        isFirst={index === 0}
-                                    />
-                                ))}
+                    {homeData.topSellingProducts.length > 0 ? (
+                        <div className='top-ventes-content'>
+                            <div className='left-banner'>
+                                <img src={topBanner} alt="Top ventes banner" />
                             </div>
-                            {isMobile && (
-                                <PaginationDots
-                                    totalPages={topSellingPages}
-                                    currentPage={topSellingPage}
-                                    onPageChange={setTopSellingPage}
-                                />
-                            )}
+                            <div className='right-products'>
+                                <div className='products-scroll-container'>
+                                    <div className='products-grid'>
+                                        {topSellingList.slice(topSellingPage * 2, (topSellingPage + 1) * 2).map((product, index) => (
+                                            <ProductCard 
+                                                key={`top-${index}`} 
+                                                product={product} 
+                                                addToCartState={false} 
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                {topSellingList.length > 2 && (
+                                    <PaginationDots
+                                        totalPages={Math.ceil(topSellingList.length / 2)}
+                                        currentPage={topSellingPage}
+                                        onPageChange={setTopSellingPage}
+                                    />
+                                )}
+                            </div>
                         </div>
                     ) : (
                         <div className='discover-not-found'>
@@ -287,39 +293,40 @@ const Product = () => {
                     )}
                 </div>
             ) : (
-                <div className="top-products-container"> 
-                    <h2>Top ventes</h2>
+                <div className='top-ventes-section mobile'> 
+                    <h2> Top ventes </h2>
                     {homeData.topSellingProducts.length > 0 ? (
-                        <div className="top-products-grid">
-                        <div className="first-prod">
-                            <ProductCard
-                                key={0}
-                                product={homeData.topSellingProducts[0]}
-                                addToCartState={false}
-                                showInfo={false}
-                                isFirst={true}
-                                showCard={false}
-                            />
-                        </div>
-                        <div className="other-prod">
-                            {homeData.topSellingProducts.slice(1).map((product, index) => (
-                            <ProductCard
-                                key={index + 1}
-                                product={product}
-                                addToCartState={false}
-                                showInfo={true}
-                                isFirst={false}
-                                showCard={false}
-                            />
-                            ))}
-                        </div>
+                        <div className='top-ventes-content-mobile'>
+                            <div className='left-banner-mobile'>
+                                <img src={topBanner} alt="Top ventes banner" />
+                            </div>
+                            <div className='right-products-mobile'>
+                                <div className='products-scroll-container'>
+                                    <div className='products-grid'>
+                                        {topSellingList.slice(topSellingPage * 2, (topSellingPage + 1) * 2).map((product, index) => (
+                                            <ProductCard 
+                                                key={`top-mobile-${index}`} 
+                                                product={product} 
+                                                addToCartState={false} 
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                {topSellingList.length > 2 && (
+                                    <PaginationDots
+                                        totalPages={Math.ceil(topSellingList.length / 2)}
+                                        currentPage={topSellingPage}
+                                        onPageChange={setTopSellingPage}
+                                    />
+                                )}
+                            </div>
                         </div>
                     ) : (
-                        <div className="discover-not-found">
-                        <span>There's nothing to display for this section.</span>
+                        <div className='discover-not-found'>
+                            <span> There's nothing to display for this section. </span>
                         </div>
                     )}
-                    </div>
+                </div>
             )}
             <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
         </div>

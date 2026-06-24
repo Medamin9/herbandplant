@@ -11,6 +11,7 @@ import CategoriesPanel from './components/CategoriesPanel';
 import OrdersPanel from './components/OrdersPanel';
 import ReviewsPanel from './components/ReviewsPanel';
 import AdminSettings from './components/AdminSettings';
+import BannersPanel from './components/BannersPanel';
 
 const Dashboard = () => {
   const [activePanel, setActivePanel] = useState('products');
@@ -84,6 +85,7 @@ const Dashboard = () => {
           {activePanel === 'categories' && <CategoriesPanel />}
           {activePanel === 'orders' && <OrdersPanel />}
           {activePanel === 'reviews' && <ReviewsPanel />}
+          {activePanel === 'banners' && <BannersPanel />}
           {activePanel === 'settings' && <AdminSettings />}
         </div>
       </div>

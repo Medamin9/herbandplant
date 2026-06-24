@@ -132,7 +132,7 @@
   
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 24px;
     
     .category-card {
@@ -157,6 +157,7 @@
         position: relative;
         height: 180px;
         overflow: hidden;
+        width: 100%;
         
         .category-image {
           height: 100%;
@@ -485,8 +486,54 @@
     }
     
     .categories-grid {
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
       gap: 16px;
+
+      .category-card {
+        .card-header {
+          height: 150px !important;
+          min-height: 150px !important;
+          max-height: 150px !important;
+
+          .category-image {
+            height: 150px !important;
+            min-height: 150px !important;
+            max-height: 150px !important;
+
+            img {
+              height: 150px !important;
+              min-height: 150px !important;
+              max-height: 150px !important;
+              object-fit: cover !important;
+            }
+
+            .image-placeholder {
+              height: 150px !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+            }
+          }
+
+          .action-overlay {
+            height: 150px !important;
+          }
+        }
+
+        .card-content {
+          h4 {
+            font-size: 14px;
+          }
+
+          p {
+            font-size: 12px;
+          }
+        }
+
+        .card-actions {
+          justify-content: center;
+        }
+      }
     }
     
     .modal-overlay {

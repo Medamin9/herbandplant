@@ -6,7 +6,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     width: 310px;
-    height: auto;
+    
     cursor: pointer;
     transition: all 0.3s ease;
     margin: 0;
@@ -22,7 +22,7 @@
         position: relative;
         img{
             width: 100%;
-            height: 100%;
+            height: 400px;
             object-fit: cover;
             border-radius: 0;
         }

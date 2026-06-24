@@ -1,19 +1,19 @@
 import '../styles/pages/Home.scss'
 import { useNavigate } from 'react-router-dom'
 
-import banner from '../assets/banner.svg'
-import bannerMobile from '../assets/banner-mobile.svg'
+import banner from '../assets/banner.webp'
+import bannerMobile from '../assets/banner-mobile.webp'
+import topBanner from '../assets/topbanner.webp'
 import { useEffect, useState } from 'react'
 import CategoryCard from '../components/CategoryCard'
 import axios from 'axios'
-import cat1 from '../assets/categories/cat1.svg'
 import { SERVER } from '../hooks/config'
 import ProductCard from '../components/ProductCard'
 import { IoStar } from "react-icons/io5";
 import quote from '../assets/icons/quote.svg'
-import firstMarrocanImage from '../assets/Marrocan/1.svg'
-import secondMarrocanImage from '../assets/Marrocan/2.svg'
-import thirdMarrocanImage from '../assets/Marrocan/3.svg'
+import firstMarrocanImage from '../assets/Marrocan/1.webp'
+import secondMarrocanImage from '../assets/Marrocan/2.webp'
+import thirdMarrocanImage from '../assets/Marrocan/3.webp'
 
 const Home = () => {
     const navigate = useNavigate()
@@ -31,6 +31,10 @@ const Home = () => {
     const [categoryPage, setCategoryPage] = useState(0);
     const [newProductsPage, setNewProductsPage] = useState(0);
     const [topSellingPage, setTopSellingPage] = useState(0);
+    const [bannerImages, setBannerImages] = useState({
+        desktop: banner,
+        mobile: bannerMobile
+    });
 
     const formatProducts = (products) => {
         return products.map(product => {
@@ -73,6 +77,15 @@ const Home = () => {
                 const reviewsResponse = await axios.get(`${SERVER}/reviews`);
                 setReviews(reviewsResponse.data.reviews);
                 setLoadingReviews(false);
+                
+                // Fetch banner images
+                const bannerResponse = await axios.get(`${SERVER}/banners/active`);
+                if (bannerResponse.data.banner) {
+                    setBannerImages({
+                        desktop: SERVER + bannerResponse.data.banner.desktop_image,
+                        mobile: SERVER + bannerResponse.data.banner.mobile_image
+                    });
+                }
             } catch (err) {
                 console.error('Error fetching data:', err);
                 setLoadingReviews(false);
@@ -92,11 +105,6 @@ const Home = () => {
         (newProductsPage + 1) * newProductsPerPage
     );
 
-    const displayedTopSelling = topSellingList.slice(
-        topSellingPage * topSellingPerPage,
-        (topSellingPage + 1) * topSellingPerPage
-    );
-
     const PaginationDots = ({ totalPages, currentPage, onPageChange }) => {
     if (totalPages <= 1) return null;
     return (
@@ -113,12 +121,11 @@ const Home = () => {
 
     const categoryPages = isMobile ? Math.max(categories.length - 1, 1) : Math.ceil(categories.length / itemsPerPage);
     const newProductsPages = Math.ceil(newProductsList.length / newProductsPerPage);
-    const topSellingPages = Math.ceil(topSellingList.length / topSellingPerPage);
 
     return (
         <div className="main-container">
             <div className="banner-container">
-                <img src={window.innerWidth > 768 ? banner : bannerMobile} alt="banner" />
+                <img src={window.innerWidth > 768 ? bannerImages.desktop : bannerImages.mobile} alt="banner" />
                 <div className="banner-title">
                     <h1> Toute votre<br/>beauté au<br/>naturel </h1>
                     <button onClick={() => navigate('/products')}> 
@@ -183,32 +190,37 @@ const Home = () => {
                 </div>
                 <div className='marrocan-text'>
                     <span> Notre marque propose des produits  marocains,{window.innerWidth > 768 ? <br/> : ' '}100 % végétaux et naturels. </span>
-                    <button>Voir plus</button>
+                    <button onClick={() => navigate('/products')}>Voir plus</button>
                 </div>
             </div>
             {window.innerWidth > 768 ? (
-                <div className='top-products-container'> 
+                <div className='top-ventes-section-desktop'> 
                     <h2> Top ventes </h2>
-                    {homeData.topSellingProducts.length  > 0 ? (
-                        <div className='top-products-grid'>
-                            <div className='top-found top-selling-grid'>
-                                {displayedTopSelling.map((product, index) => (
-                                    <ProductCard 
-                                        key={index} 
-                                        product={product} 
-                                        addToCartState={false} 
-                                        showInfo={index !== 0}
-                                        isFirst={index === 0}
-                                    />
-                                ))}
+                    {homeData.topSellingProducts.length > 0 ? (
+                        <div className='top-ventes-content'>
+                            <div className='left-banner'>
+                                <img src={topBanner} alt="Top ventes banner" />
                             </div>
-                            {isMobile && (
-                                <PaginationDots
-                                    totalPages={topSellingPages}
-                                    currentPage={topSellingPage}
-                                    onPageChange={setTopSellingPage}
-                                />
-                            )}
+                            <div className='right-products'>
+                                <div className='products-scroll-container'>
+                                    <div className='products-grid'>
+                                        {topSellingList.slice(topSellingPage * 2, (topSellingPage + 1) * 2).map((product, index) => (
+                                            <ProductCard 
+                                                key={`top-${index}`} 
+                                                product={product} 
+                                                addToCartState={false} 
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                {topSellingList.length > 2 && (
+                                    <PaginationDots
+                                        totalPages={Math.ceil(topSellingList.length / 2)}
+                                        currentPage={topSellingPage}
+                                        onPageChange={setTopSellingPage}
+                                    />
+                                )}
+                            </div>
                         </div>
                     ) : (
                         <div className='discover-not-found'>
@@ -217,39 +229,40 @@ const Home = () => {
                     )}
                 </div>
             ) : (
-                <div className="top-products-container"> 
-                    <h2>Top ventes</h2>
+                <div className='top-ventes-section mobile'> 
+                    <h2> Top ventes </h2>
                     {homeData.topSellingProducts.length > 0 ? (
-                        <div className="top-products-grid">
-                        <div className="first-prod">
-                            <ProductCard
-                                key={0}
-                                product={homeData.topSellingProducts[0]}
-                                addToCartState={false}
-                                showInfo={false}
-                                isFirst={true}
-                                showCard={false}
-                            />
-                        </div>
-                        <div className="other-prod">
-                            {homeData.topSellingProducts.slice(1).map((product, index) => (
-                            <ProductCard
-                                key={index + 1}
-                                product={product}
-                                addToCartState={false}
-                                showInfo={true}
-                                isFirst={false}
-                                showCard={false}
-                            />
-                            ))}
-                        </div>
+                        <div className='top-ventes-content-mobile'>
+                            <div className='left-banner-mobile'>
+                                <img src={topBanner} alt="Top ventes banner" />
+                            </div>
+                            <div className='right-products-mobile'>
+                                <div className='products-scroll-container'>
+                                    <div className='products-grid'>
+                                        {topSellingList.slice(topSellingPage * 2, (topSellingPage + 1) * 2).map((product, index) => (
+                                            <ProductCard 
+                                                key={`top-mobile-${index}`} 
+                                                product={product} 
+                                                addToCartState={false} 
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                {topSellingList.length > 2 && (
+                                    <PaginationDots
+                                        totalPages={Math.ceil(topSellingList.length / 2)}
+                                        currentPage={topSellingPage}
+                                        onPageChange={setTopSellingPage}
+                                    />
+                                )}
+                            </div>
                         </div>
                     ) : (
-                        <div className="discover-not-found">
-                        <span>There's nothing to display for this section.</span>
+                        <div className='discover-not-found'>
+                            <span> There's nothing to display for this section. </span>
                         </div>
                     )}
-                    </div>
+                </div>
             )}
             <div className='avis-section'>
                 <h2> Avis de nos clients </h2>

@@ -1,4 +1,4 @@
-import { MdInventory, MdCategory, MdShoppingCart, MdRateReview, MdSettings, MdLogout } from 'react-icons/md';
+import { MdInventory, MdCategory, MdShoppingCart, MdRateReview, MdSettings, MdLogout, MdImage } from 'react-icons/md';
 import '../../../styles/pages/Admins/components/Sidebar.scss';
 
 const Sidebar = ({ activePanel, setActivePanel, onLogout }) => {
@@ -7,6 +7,7 @@ const Sidebar = ({ activePanel, setActivePanel, onLogout }) => {
     { id: 'categories', label: 'Categories', icon: <MdCategory /> },
     { id: 'orders', label: 'Orders', icon: <MdShoppingCart /> },
     { id: 'reviews', label: 'Reviews', icon: <MdRateReview /> },
+    { id: 'banners', label: 'Banners', icon: <MdImage /> },
     { id: 'settings', label: 'Settings', icon: <MdSettings /> },
   ];
 

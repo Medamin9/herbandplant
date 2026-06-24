@@ -5,8 +5,10 @@ import { SERVER } from '../hooks/config';
 import ProductCard from '../components/ProductCard';
 import { MdFilterList } from "react-icons/md";
 import { MdChevronRight, MdChevronLeft } from "react-icons/md";
+import { useSearchParams } from 'react-router-dom';
 
 const Products = () => {
+    const [searchParams] = useSearchParams();
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
@@ -26,6 +28,15 @@ const Products = () => {
         top_vente: false,
         search: ""
     });
+
+    // Set category filter from URL on component mount
+    useEffect(() => {
+        const categoryIdFromUrl = searchParams.get('category_id');
+        if (categoryIdFromUrl) {
+            setFilters(prev => ({ ...prev, category_id: categoryIdFromUrl }));
+            setShowFilters(true);
+        }
+    }, [searchParams]);
 
     useEffect(() => {
         const fetchCategories = async () => {

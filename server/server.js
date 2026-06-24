@@ -8,6 +8,7 @@ const productRoutes = require('./routes/products');
 const categoryRoutes = require('./routes/categories');
 const orderRoutes = require('./routes/orders');
 const reviewRoutes = require('./routes/reviews');
+const bannerRoutes = require('./routes/banners');
 
 const cors = require('cors');
 const app = express();
@@ -21,16 +22,18 @@ const allowedOrigins = [
   `https://www.${process.env.DOMAIN_NAME}`
 ];
 
+// Log pour debugging
+console.log('=== CORS Configuration ===');
+console.log('DOMAIN_NAME:', process.env.DOMAIN_NAME);
+console.log('Allowed Origins:', allowedOrigins);
+console.log('========================');
+
+// CORS - Accepter toutes les origines (TEMPORAIRE pour debugging)
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true
+  origin: true, // Accepte toutes les origines
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 app.use(express.json());
@@ -42,6 +45,7 @@ app.use('/products', productRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/orders', orderRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/banners', bannerRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });

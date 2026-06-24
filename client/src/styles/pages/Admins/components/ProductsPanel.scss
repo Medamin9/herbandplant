@@ -77,7 +77,7 @@
 
     .search-box {
       flex: 1;
-      min-width: 250px;
+      max-width: 750px;
       
       input {
         width: 100%;
@@ -231,16 +231,19 @@
       .product-info {
         padding: 16px;
         flex-grow: 1;
+        text-align: left;
         
         h4 {
           margin: 0 0 8px 0;
           color: #212529;
           font-family: $palatino;
           font-size: 18px;
+          text-align: left;
         }
         
         .price-container {
           margin-bottom: 8px;
+          text-align: left;
           
           .original-price {
             text-decoration: line-through;
@@ -263,14 +266,17 @@
           margin: 0 0 8px 0;
           font-size: 14px;
           font-family: $palatino;
+          text-align: left;
         }
         
         .description {
+          display: block;
           color: #495057;
           margin: 0;
           font-size: 14px;
           line-height: 1.4;
           font-family: $palatino;
+          text-align: left;
         }
       }
       
@@ -278,6 +284,9 @@
         padding: 16px;
         border-top: 1px solid #e9ecef;
         display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
         gap: 8px;
         
         .btn-icon {
@@ -781,7 +790,8 @@
     .panel-header {
       flex-direction: column;
       align-items: stretch;
-      gap: 16px;
+      padding: 2px;
+      gap: 4px;
       
       h2 {
         text-align: center;
@@ -793,7 +803,7 @@
       align-items: stretch;
       
       .search-box {
-        min-width: 100%;
+        max-width: 85%;
       }
       
       .filter-controls {
@@ -802,7 +812,67 @@
     }
     
     .products-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+
+      .product-card {
+        .product-image {
+          height: 150px;
+
+          .promotion-badge, .new-badge, .bestseller-badge {
+            top: 6px;
+            padding: 2px 6px;
+            font-size: 9px;
+          }
+
+          .promotion-badge {
+            left: 6px;
+          }
+
+          .new-badge {
+            left: 6px;
+          }
+
+          .bestseller-badge {
+            right: 6px;
+          }
+        }
+
+        .product-info {
+          padding: 12px;
+          text-align: center !important;
+
+          h4 {
+            font-size: 14px;
+            text-align: center !important;
+          }
+
+          .description {
+            display: none !important;
+          }
+
+          .price-container {
+            text-align: center !important;
+
+            .original-price {
+              font-size: 12px;
+            }
+
+            .discounted-price, .price {
+              font-size: 14px;
+            }
+          }
+
+          .category {
+            font-size: 12px;
+            text-align: center !important;
+            display: none;
+          }
+        }
+
+        .product-actions {
+          padding: 12px;
+        }
+      }
     }
   }
   

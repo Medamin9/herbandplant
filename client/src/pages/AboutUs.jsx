@@ -1,11 +1,11 @@
 import '../styles/pages/Aboutus.scss';
-import owner from '../assets/aboutus/owner.svg'
+import owner from '../assets/aboutus/owner.webp'
 import layer from '../assets/aboutus/layer.svg'
-import service1 from '../assets/aboutus/service1.svg'
-import service2 from '../assets/aboutus/service2.svg'
-import service3 from '../assets/aboutus/service3.svg'
-import service4 from '../assets/aboutus/service4.svg'
-import banner from '../assets/aboutus/banner.svg'
+import service1 from '../assets/aboutus/service1.webp'
+import service2 from '../assets/aboutus/service2.webp'
+import service3 from '../assets/aboutus/service3.webp'
+import service4 from '../assets/aboutus/service4.webp'
+import banner from '../assets/aboutus/banner.webp'
 
 const AboutUs = () => {
 

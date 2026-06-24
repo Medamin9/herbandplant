@@ -65,3 +65,62 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .admin-settings {
+    padding: 0.5rem !important;
+
+    .panel-header {
+      padding: 1rem !important;
+
+      h2 {
+        font-size: 1.25rem !important;
+      }
+    }
+
+    .settings-form {
+      max-width: 100% !important;
+      padding: 0.5rem !important;
+
+      .form-group {
+        margin-bottom: 16px !important;
+
+        label {
+          font-size: 0.9rem !important;
+          margin-bottom: 6px !important;
+        }
+
+        .input-wrapper {
+          width: 100% !important;
+
+          .input-icon {
+            font-size: 1rem !important;
+            left: 10px !important;
+          }
+
+          input {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 10px 10px 10px 36px !important;
+            font-size: 0.9rem !important;
+            box-sizing: border-box !important;
+          }
+        }
+      }
+
+      .error-message,
+      .success-message {
+        padding: 10px !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 12px !important;
+      }
+
+      button {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 12px 16px !important;
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+}

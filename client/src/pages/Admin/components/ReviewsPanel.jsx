@@ -106,7 +106,18 @@ const ReviewsPanel = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading reviews...</div>;
+  if (loading) return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      fontSize: '18px',
+      color: '#6c757d'
+    }}>
+      Loading reviews...
+    </div>
+  );
 
   return (
     <div className="reviews-panel">

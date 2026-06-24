@@ -1,0 +1,332 @@
+.banners-panel {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #555;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 3rem;
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .upload-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 3rem;
+
+        .banner-upload-form {
+            .upload-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                margin-bottom: 1.5rem;
+
+                @media (max-width: 768px) {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .upload-group {
+                label {
+                    display: block;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    color: #333;
+                }
+
+                input[type="file"] {
+                    width: 100%;
+                    padding: 0.75rem;
+                    border: 2px dashed #ddd;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: border-color 0.2s;
+
+                    &:hover {
+                        border-color: #999;
+                    }
+                }
+
+                .preview {
+                    margin-top: 1rem;
+                    border: 1px solid #eee;
+                    border-radius: 4px;
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+                        height: auto;
+                        display: block;
+                    }
+                }
+            }
+
+            button[type="submit"] {
+                background: #4CAF50;
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background 0.2s;
+
+                &:hover:not(:disabled) {
+                    background: #45a049;
+                }
+
+                &:disabled {
+                    background: #ccc;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+
+    .banners-list {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+        .no-banners {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .banners-grid {
+            display: grid;
+            gap: 2rem;
+
+            .banner-item {
+                border: 2px solid #eee;
+                border-radius: 8px;
+                padding: 1.5rem;
+                transition: border-color 0.2s;
+
+                &.active {
+                    border-color: #4CAF50;
+                    background: #f0fff4;
+                }
+
+                .banner-preview {
+                    display: grid;
+                    grid-template-columns: 2fr 1fr;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+
+                    @media (max-width: 768px) {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .preview-image {
+                        position: relative;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        overflow: hidden;
+
+                        .label {
+                            position: absolute;
+                            top: 0.5rem;
+                            left: 0.5rem;
+                            background: rgba(0,0,0,0.7);
+                            color: white;
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 3px;
+                            font-size: 0.85rem;
+                            z-index: 1;
+                        }
+
+                        img {
+                            width: 100%;
+                            height: auto;
+                            display: block;
+                        }
+                    }
+                }
+
+                .banner-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                    padding-bottom: 1rem;
+                    border-bottom: 1px solid #eee;
+
+                    .banner-date {
+                        color: #666;
+                        font-size: 0.9rem;
+                    }
+
+                    .active-badge {
+                        background: #4CAF50;
+                        color: white;
+                        padding: 0.35rem 1rem;
+                        border-radius: 20px;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                    }
+                }
+
+                .banner-actions {
+                    display: flex;
+                    gap: 1rem;
+
+                    button {
+                        flex: 1;
+                        padding: 0.75rem 1.5rem;
+                        border: none;
+                        border-radius: 4px;
+                        font-size: 1rem;
+                        cursor: pointer;
+                        transition: all 0.2s;
+
+                        &.btn-activate {
+                            background: #2196F3;
+                            color: white;
+
+                            &:hover {
+                                background: #1976D2;
+                            }
+                        }
+
+                        &.btn-delete {
+                            background: #f44336;
+                            color: white;
+
+                            &:hover {
+                                background: #d32f2f;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .banners-panel {
+        padding: 0.5rem !important;
+
+        h2 {
+            font-size: 1.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        h3 {
+            font-size: 1.2rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .upload-section {
+            padding: 1rem !important;
+            margin-bottom: 1.5rem !important;
+
+            .banner-upload-form {
+                .upload-row {
+                    gap: 1rem !important;
+                    margin-bottom: 1rem !important;
+                }
+
+                .upload-group {
+                    label {
+                        font-size: 0.9rem !important;
+                        margin-bottom: 0.4rem !important;
+                    }
+
+                    input[type="file"] {
+                        padding: 0.5rem !important;
+                        font-size: 0.85rem !important;
+                        max-width: 290px;
+                    }
+
+                    .preview {
+                        margin-top: 0.75rem !important;
+                    }
+                }
+
+                button[type="submit"] {
+                    padding: 0.75rem 1.5rem !important;
+                    font-size: 0.9rem !important;
+                    width: 100% !important;
+                }
+            }
+        }
+
+        .banners-list {
+            padding: 1rem !important;
+
+            .no-banners {
+                padding: 1.5rem !important;
+                font-size: 1rem !important;
+            }
+
+            .banners-grid {
+                gap: 1rem !important;
+
+                .banner-item {
+                    padding: 1rem !important;
+
+                    .banner-preview {
+                        gap: 0.75rem !important;
+                        margin-bottom: 0.75rem !important;
+
+                        .preview-image {
+                            .label {
+                                font-size: 0.75rem !important;
+                                padding: 0.2rem 0.5rem !important;
+                                top: 0.3rem !important;
+                                left: 0.3rem !important;
+                            }
+                        }
+                    }
+
+                    .banner-info {
+                        flex-direction: column !important;
+                        align-items: flex-start !important;
+                        gap: 0.5rem !important;
+                        margin-bottom: 0.75rem !important;
+                        padding-bottom: 0.75rem !important;
+
+                        .banner-date {
+                            font-size: 0.85rem !important;
+                        }
+
+                        .active-badge {
+                            padding: 0.3rem 0.8rem !important;
+                            font-size: 0.85rem !important;
+                        }
+                    }
+
+                    .banner-actions {
+                        flex-direction: column !important;
+                        gap: 0.75rem !important;
+
+                        button {
+                            padding: 0.6rem 1rem !important;
+                            font-size: 0.9rem !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

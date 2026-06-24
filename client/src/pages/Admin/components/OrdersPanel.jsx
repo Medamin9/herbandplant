@@ -66,7 +66,18 @@ const OrdersPanel = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading orders...</div>;
+  if (loading) return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      fontSize: '18px',
+      color: '#6c757d'
+    }}>
+      Loading orders...
+    </div>
+  );
 
   return (
     <div className="orders-panel">
