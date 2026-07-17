@@ -150,5 +150,41 @@
     .product-card{
         width: 100%;
         height: auto;
+        
+        .product-card-image{
+            height: 250px !important;
+            
+            img{
+                height: 250px !important;
+            }
+
+            .promo-card, .top-card, .new-card, .out-card {
+                font-size: 11px !important;
+                padding: 0.2rem 0.5rem !important;
+            }
+        }
+
+        .product-info {
+            h3 {
+                font-size: 14px !important;
+            }
+
+            .product-card-price {
+                .price-section {
+                    .old-price, .new-price {
+                        font-size: 14px !important;
+                    }
+                }
+
+                .origin-price {
+                    font-size: 14px !important;
+                }
+            }
+        }
+
+        .product-actions {
+            padding: 0.6rem 0 !important;
+            font-size: 13px !important;
+        }
     }
 }

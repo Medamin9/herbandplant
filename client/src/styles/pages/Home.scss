@@ -907,21 +907,36 @@
             width: 75%;
             gap: 1rem;
 
+            .top-found {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                width: 100%;
+            }
+
             .product-card:nth-child(1) {
                 grid-column: 1 / -1;
             }
 
             .product-card {
-                &.first-product{
-                    img{
-                        margin-bottom: 2rem;
-                        height: 35vh;
+                .product-card-image {
+                    height: 250px !important;
+                    
+                    img {
+                        width: 100%;
+                        height: 250px !important;
+                        object-fit: cover;
                     }
                 }
-                img {
-                    width: 100%;
-                    height: auto;
-                    object-fit: cover;
+
+                &.first-product {
+                    .product-card-image {
+                        height: 250px !important;
+                        
+                        img {
+                            height: 250px !important;
+                        }
+                    }
                 }
             }
         }
@@ -1054,8 +1069,10 @@
                                 width: 100%;
 
                                 .product-card-image {
+                                    height: 250px !important;
+                                    
                                     img {
-                                        height: 200px;
+                                        height: 250px !important;
                                     }
                                 }
                             }
@@ -1105,8 +1122,10 @@
                             width: 100%;
 
                             .product-card-image {
+                                height: 250px !important;
+                                
                                 img {
-                                    height: 200px;
+                                    height: 250px !important;
                                 }
                             }
                         }

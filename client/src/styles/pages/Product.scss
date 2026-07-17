@@ -922,14 +922,18 @@
                         cursor: pointer;
                         font-weight: lighter;
                         transition: color 0.3s ease;
+                        color: #000000 !important;
+                        -webkit-text-fill-color: #000000 !important;
 
                         &:hover {
-                            color: $main-color;
+                            color: $main-color !important;
+                            -webkit-text-fill-color: $main-color !important;
                         }
 
                         .chevron-icon {
                             transition: transform 0.3s ease;
                             flex-shrink: 0;
+                            color: #000000 !important;
 
                             &.rotated {
                                 transform: rotate(90deg);

@@ -77,7 +77,7 @@
 
     .search-box {
       flex: 1;
-      max-width: 750px;
+      max-width: 700px;
       
       input {
         width: 100%;
@@ -785,29 +785,56 @@
 // Responsive adjustments
 @media (max-width: 768px) {
   .products-panel {
-    padding: 16px;
+    padding: 0.5rem !important;
     
     .panel-header {
       flex-direction: column;
       align-items: stretch;
-      padding: 2px;
-      gap: 4px;
+      padding: 1rem !important;
+      gap: 0.75rem !important;
+      margin-bottom: 1rem !important;
       
       h2 {
         text-align: center;
+        font-size: 1.25rem !important;
       }
+      
+      .btn-primary {
+        justify-content: center;
+        padding: 10px 16px !important;
+        font-size: 0.9rem !important;
+      }
+    }
+    
+    .alert {
+      padding: 10px 12px !important;
+      margin-bottom: 1rem !important;
+      font-size: 0.85rem !important;
     }
     
     .controls-row {
       flex-direction: column;
       align-items: stretch;
+      padding: 1rem !important;
+      gap: 0.75rem !important;
       
       .search-box {
-        max-width: 85%;
+        max-width: 90% !important;
+        
+        input {
+          padding: 10px 12px !important;
+          font-size: 0.9rem !important;
+        }
       }
       
       .filter-controls {
         flex-direction: column;
+        gap: 0.75rem !important;
+        
+        select {
+          padding: 10px 12px !important;
+          font-size: 0.9rem !important;
+        }
       }
     }
     

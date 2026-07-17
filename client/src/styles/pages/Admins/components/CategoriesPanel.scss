@@ -470,30 +470,42 @@
 
 @media (max-width: 768px) {
   .categories-panel {
-    padding: 16px;
+    padding: 0.5rem !important;
     
     .panel-header {
       flex-direction: column;
       align-items: stretch;
+      padding: 1rem !important;
+      margin-bottom: 1rem !important;
       
       .header-content {
         text-align: center;
+        
+        h2 {
+          font-size: 1.25rem !important;
+        }
+        
+        p {
+          font-size: 0.9rem !important;
+        }
       }
       
       .add-category-btn {
         justify-content: center;
+        padding: 10px 16px !important;
+        font-size: 0.9rem !important;
       }
     }
     
     .categories-grid {
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
-      gap: 16px;
+      gap: 8px;
 
       .category-card {
         .card-header {
-          height: 150px !important;
-          min-height: 150px !important;
-          max-height: 150px !important;
+          height: 120px !important;
+          min-height: 120px !important;
+          max-height: 120px !important;
 
           .category-image {
             height: 150px !important;
@@ -531,13 +543,30 @@
         }
 
         .card-actions {
-          justify-content: center;
+          justify-content: center !important;
+          padding: 12px !important;
+          display: flex !important;
+          align-items: center !important;
+          
+          .btn-icon {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            
+            svg {
+              margin: 0 auto !important;
+            }
+          }
         }
       }
     }
     
     .modal-overlay {
-      padding: 10px;
+      padding: 4px;
       
       .modal {
         .modal-header {

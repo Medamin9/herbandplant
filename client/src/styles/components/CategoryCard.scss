@@ -31,8 +31,11 @@
         font-weight: 100;
         font-size: 21px;
         text-transform: uppercase;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
         &:hover{
-            color: $main-color;
+            color: $main-color !important;
+            -webkit-text-fill-color: $main-color !important;
         }
     }
 }
@@ -51,12 +54,10 @@
 
 @media screen and (max-width: 576px) {
     .category-card{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
+        display: grid;
+        grid-template-rows: 30vh auto;
         width: 100%;
-        height: 35vh;
+        height: auto;
         cursor: pointer;
         transition: all 0.3s ease;
         &:hover{
@@ -64,7 +65,9 @@
         }
         img{
             width: 100%;
-            height: 30vh;
+            height: 30vh !important;
+            min-height: 30vh !important;
+            max-height: 30vh !important;
             object-fit: cover;
         }
 
@@ -78,8 +81,21 @@
             font-family: $cormorant-reg;
             font-weight: 100;
             font-size: 12px;
+            color: #000000 !important;
+            -webkit-text-fill-color: #000000 !important;
+            text-align: left;
+            background-color: transparent;
+            min-height: 3rem !important;
+            line-height: 1.2 !important;
+            overflow: hidden !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+            text-overflow: ellipsis !important;
+            align-self: start;
             &:hover{
-                color: $main-color;
+                color: $main-color !important;
+                -webkit-text-fill-color: $main-color !important;
             }
         }
     }
