@@ -185,7 +185,7 @@ const Product = () => {
                                 ))}
                             </div>
                         </div>
-                        <span className="quantity-title"> Quantity : </span>
+                        <span className="quantity-title"> Quantité : </span>
                         <div className="quantity-container">
                             <button onClick={() =>{
                                 if (quantity !== 1) setQuantity(quantity - 1)

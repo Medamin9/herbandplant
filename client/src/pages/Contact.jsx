@@ -16,7 +16,7 @@ const Contact = () => {
             <input type="text" placeholder="Numéro de téléphone" required />
             <input type="email" placeholder="E-mail" required />
             <textarea placeholder="Message" className="message" required></textarea>
-            <button type="submit">Send</button>
+            <button type="submit">Envoyer</button>
         </form>
       </div>
       <div className='contact-footer'>

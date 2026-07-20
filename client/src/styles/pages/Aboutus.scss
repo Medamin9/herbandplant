@@ -79,9 +79,10 @@
             width: 100%;
             text-align: left;
             font-family: $palatino;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 100;
             margin-bottom: 1rem;
+            text-transform: uppercase;
         }
 
         .services-container{
@@ -120,6 +121,7 @@
         h2{
             font-family: $palatino;
             font-size: 32px;
+            font-weight: 100;
             margin-bottom: 1rem;
             text-transform: uppercase;
         }
@@ -221,9 +223,10 @@
                 width: 100%;
                 text-align: center;
                 font-family: $palatino;
-                font-size: 28px;
+                font-size: 24px;
                 font-weight: 100;
                 margin-bottom: 1rem;
+                text-transform: uppercase;
             }
 
             .services-container {
@@ -250,7 +253,7 @@
                     img {
                         object-fit: cover;
                         width: 100%;
-                        height: 30vh;
+                        height: 35vh;
                     }
                 }
                 }
@@ -265,9 +268,11 @@
 
             h2{
                 font-family: $palatino;
-                font-size: 26px;
+                font-size: 24px;
+                font-weight: 100;
                 text-align: center;
                 margin-bottom: 1rem;
+                text-transform: uppercase;
             }
 
             span{
@@ -280,7 +285,7 @@
 
             img{
                 width: 100%;
-                height: 15vh;
+                height: 25vh;
                 object-fit: cover;
             }
         }
@@ -341,7 +346,7 @@
                 .owner{
                     position: absolute;
                     z-index: 3;
-                    width: 210px;
+                    width: 240px;
                     height: 300px;
                     object-fit: cover;
                     top: 40%;
@@ -356,16 +361,18 @@
                     height: 320px;
                     border-radius: 20px;
                     top: 20%;
-                    left: 10%;
+                    left: 20%;
                 }
             }
         }
         .footer-banner{
             h2{
                 font-family: $palatino;
-                font-size: 21px;
+                font-size: 24px;
+                font-weight: 100;
                 text-align: center;
                 margin-bottom: 1rem;
+                text-transform: uppercase;
             }
         }
     }

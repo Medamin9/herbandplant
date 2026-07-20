@@ -5,6 +5,7 @@ import { FiX, FiShoppingBag, FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi';
 import { SERVER } from '../hooks/config';
 import '../styles/components/CartSidebar.scss';
 import { IoChevronForward } from "react-icons/io5";
+import paniervide from '../assets/panier.svg'
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { items, getCartTotal, getCartItemCount, updateQuantity, removeFromCart, clearCart } = useCart();
@@ -53,7 +54,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
         <div className="cart-content">
           {items.length === 0 ? (
             <div className="empty-cart">
-              <FiShoppingBag size={48} />
+              <img src={paniervide} height="120px" width="120px" />
               <h3>Votre panier est vide</h3>
               <p>Ajoutez des produits à votre panier</p>
               <button className="shop-btn" onClick={() => { handleClose(); navigate('/products'); }}>
@@ -110,7 +111,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
               <div className="cart-actions">
                 <button className="clear-cart-btn" onClick={handleClose}>
-                  <IoChevronForward size={18} /> Continuer vos achat
+                  <IoChevronForward size={18} /> Continuer vos achats
                 </button>
                 <button className="checkout-btn" onClick={handleCheckout}>
                   Acheter

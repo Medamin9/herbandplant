@@ -6,6 +6,7 @@ import service2 from '../assets/aboutus/service2.webp'
 import service3 from '../assets/aboutus/service3.webp'
 import service4 from '../assets/aboutus/service4.webp'
 import banner from '../assets/aboutus/banner.webp'
+import bannerMobile from '../assets/bannermb.webp'
 
 const AboutUs = () => {
 
@@ -53,7 +54,7 @@ const AboutUs = () => {
                 chaque produit raconte une histoire : celle du Maroc, de ses traditions et de la nature,{window.innerWidth >= 768 && <br/>}
                 au service de votre beauté et de votre bien-être. Découvrez nos produits et laissez-vous séduire par la magie des soins{window.innerWidth >= 768 && <br/>}naturels marocains, maintenant accessibles à Tunis.
             </span>
-            <img src={banner} alt='banner' />
+            <img src={window.innerWidth >= 768 ? banner : bannerMobile} alt='banner' />
         </div>
     </div>
   );

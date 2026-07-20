@@ -54,8 +54,8 @@
 
 @media screen and (max-width: 576px) {
     .category-card{
-        display: grid;
-        grid-template-rows: 30vh auto;
+        display: flex !important;
+        flex-direction: column !important;
         width: 100%;
         height: auto;
         cursor: pointer;
@@ -64,15 +64,16 @@
             transform: scale(1.05);
         }
         img{
-            width: 100%;
-            height: 30vh !important;
-            min-height: 30vh !important;
-            max-height: 30vh !important;
-            object-fit: cover;
+            width: 100% !important;
+            height: 180px !important;
+            min-height: 180px !important;
+            max-height: 180px !important;
+            object-fit: cover !important;
+            flex-shrink: 0 !important;
         }
 
         button{
-            margin-top: 0rem;
+            margin-top: 0.5rem;
             width: 100%;
             border: none;
             padding: 0.5rem 0;
@@ -86,13 +87,13 @@
             text-align: left;
             background-color: transparent;
             min-height: 3rem !important;
+            max-height: 3rem !important;
             line-height: 1.2 !important;
             overflow: hidden !important;
             display: -webkit-box !important;
             -webkit-line-clamp: 2 !important;
             -webkit-box-orient: vertical !important;
             text-overflow: ellipsis !important;
-            align-self: start;
             &:hover{
                 color: $main-color !important;
                 -webkit-text-fill-color: $main-color !important;

@@ -32,7 +32,7 @@ const ProductCard = ({ product, addToCartState = true, showInfo = true, isFirst 
                     </div>
                 </div>
             )}
-            {addToCartState && <button className='product-actions' disabled={product.stock_repture === true}> Add to cart </button>}
+            {addToCartState && <button className='product-actions' disabled={product.stock_repture === true}> Ajouter au panier </button>}
         </div>
     )
 }

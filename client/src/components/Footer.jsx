@@ -2,6 +2,10 @@ import '../styles/components/Footer.scss'
 import { CiMail } from "react-icons/ci";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { LiaPhoneSolid } from "react-icons/lia";
+import { BsTelephone } from "react-icons/bs";
+import { LiaWhatsapp } from "react-icons/lia";
+
+
 import { LuInstagram } from "react-icons/lu";
 import wetekup from '../assets/icons/wetekup.svg'
 import { useLocation } from "react-router-dom";
@@ -15,8 +19,8 @@ const Footer = () => {
                 <div className='footer-contact'>
                     <h3> Contact </h3>
                     <p> <CiMail size={24} /> Herbandplanta@gmail.com  </p>
-                    <p> <LiaPhoneSolid size={24} /> +216 54824122 </p>
-                    <p> <FaWhatsapp size={24} /> +216 54151526 </p>
+                    <p> <BsTelephone  size={22} /> +216 54824122 </p>
+                    <p> <LiaWhatsapp   size={28} /> +216 54151526 </p>
                     <p> <IoLocationOutline size={24} /> Ain Zagouan sud av carthage num 28 </p>
                 </div>
                 <div className='footer-findus'>
@@ -31,7 +35,7 @@ const Footer = () => {
                     <div className='footer-languages'>
                         <h3> Langues </h3>
                         <select> 
-                            <option> Francais </option>
+                            <option> Français </option>
                             <option> Anglais </option>
                             <option> Arabe </option>
                         </select>

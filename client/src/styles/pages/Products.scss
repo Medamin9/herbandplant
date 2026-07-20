@@ -327,7 +327,7 @@
                 }
                 .products-found {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                    grid-template-columns: repeat(2, 1fr);
                     gap: 0.75rem;
                     width: 100%;
                     flex: 1;
@@ -335,6 +335,13 @@
                     .product-card{
                         margin-bottom: 1rem;
                     }
+                }
+            }
+            
+            // When filters are open, show 1 product per line
+            .products-main:has(.filter-sidebar) {
+                .products-found {
+                    grid-template-columns: 1fr;
                 }
             }
         }

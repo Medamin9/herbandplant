@@ -63,7 +63,7 @@
                     position: relative;
                     justify-content: flex-start;
                     order: 1;
-                    height: 55vh;
+                    height: 66vh;
 
                     .product-card-promo,
                     .product-card-new, .product-card-out, .product-top-card {
@@ -130,13 +130,14 @@
                 .subtitle{
                     font-family: $palatino;
                     color: #929191;
-                    font-size: 19px;
+                    font-size: 16px;
+                    margin-bottom: 0.5rem;
                 }
                 h1{
                     font-family: $palatino;
                     margin-bottom: 0.5rem;
                     text-transform: uppercase;
-                    font-size: 32px;
+                    font-size: 28px;
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
@@ -252,7 +253,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    border: 2px solid #C0C0C0;
+                    border: 1px solid #C0C0C0;
                     border-radius: 9999px;
                     width: 140px;
                     height: 40px;
@@ -373,10 +374,15 @@
                 position: relative;
                 font-weight: lighter;
 
-                &.active {
-                    font-weight: 600;
-                    color: black;
-                    border-bottom: 3px solid $main-color;
+                &.active::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 4px;
+                    background-color: $main-color;
+                    border-radius: 10px;
                 }
 
                 &:hover {
@@ -416,6 +422,21 @@
             text-align: left;
             width: 100%;
             margin-bottom: 2rem;
+        }
+
+        .discover-not-found {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 3rem 0;
+            
+            span {
+                font-family: $palatino;
+                font-size: 20px;
+                color: #666;
+                text-align: center;
+            }
         }
 
         .top-ventes-content {
@@ -670,12 +691,14 @@
 
                     .subtitle{
                         font-family: $palatino;
+                        font-weight: 400;
                         color: #929191;
-                        font-size: 19px;
+                        font-size: 17px;
                     }
                     h1{
                         font-family: $palatino;
-                        margin-bottom: 0.5rem;
+                        margin-bottom: 0.2rem;
+                        font-weight: 400;
                         font-size: 24px;
                         display: flex;
                         align-items: center;
@@ -727,7 +750,7 @@
                         margin-bottom: 0.75rem;
                         span{
                             font-family: $palatino;
-                            font-size: 19px;
+                            font-size: 22px;
                             font-weight: 100;
                         }
 
@@ -899,14 +922,11 @@
             .tabs-header {
                 width: 100%;
                 flex-direction: column;
+                border-bottom: none !important;
 
                 .tab-item {
-                    border-top: 1px solid black;
+                    border-bottom: 1px solid #ddd;
                     max-height: 0px;
-                    &:last-child {
-                        border-bottom: 1px solid black;
-                        border-top: none;
-                    }
 
                     button {
                         background: none;
@@ -915,15 +935,30 @@
                         font-family: $palatino;
                         font-size: 21px;
                         text-align: left;
-                        padding: 0.5rem 1rem;
+                        padding: 0.75rem 0 !important;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
                         cursor: pointer;
                         font-weight: lighter;
-                        transition: color 0.3s ease;
-                        color: #000000 !important;
-                        -webkit-text-fill-color: #000000 !important;
+                        transition: all 0.3s ease;
+                        color: #000000;
+                        position: relative;
+
+                        &.active {
+                            color: $main-color !important;
+                            -webkit-text-fill-color: $main-color !important;
+                            
+                            &::after {
+                                content: '';
+                                position: absolute;
+                                bottom: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 2px;
+                                background-color: $main-color;
+                            }
+                        }
 
                         &:hover {
                             color: $main-color !important;
@@ -933,10 +968,10 @@
                         .chevron-icon {
                             transition: transform 0.3s ease;
                             flex-shrink: 0;
-                            color: #000000 !important;
 
                             &.rotated {
                                 transform: rotate(90deg);
+                                color: $main-color !important;
                             }
                         }
                     }
@@ -954,7 +989,7 @@
                     }
                     &.open {
                         max-height: 100vh;
-                        padding: 0.5rem 1rem 1rem;
+                        padding-bottom: 1rem;
                     }
                 }
             }
@@ -969,6 +1004,22 @@
                 text-align: center;
                 text-transform: uppercase;
                 margin-bottom: 1.5rem;
+                font-weight: 400;
+            }
+
+            .discover-not-found {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                padding: 2rem 0;
+                
+                span {
+                    font-family: $palatino;
+                    font-size: 16px;
+                    color: #666;
+                    text-align: center;
+                }
             }
 
             &.mobile {
@@ -985,7 +1036,7 @@
                         img {
                             width: 100%;
                             max-height: none;
-                            height: 250px;
+                            height: 350px;
                         }
                     }
 
