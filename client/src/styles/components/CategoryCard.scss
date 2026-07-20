@@ -57,7 +57,9 @@
         display: flex !important;
         flex-direction: column !important;
         width: 100%;
-        height: auto;
+        height: auto !important;
+        min-height: 228px !important;
+        max-height: 228px !important;
         cursor: pointer;
         transition: all 0.3s ease;
         &:hover{
