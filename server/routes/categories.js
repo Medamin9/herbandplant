@@ -48,7 +48,16 @@ const upload = multer({
 // GET /categories - get all categories
 router.get('/', async (req, res) => {
   try {
-    const { rows } = await db.query('SELECT * FROM categories ORDER BY name');
+    const { rows } = await db.query(`
+      SELECT c.*, 
+        COUNT(DISTINCT s.id) as subcategories_count,
+        COUNT(DISTINCT p.id) as products_count
+      FROM categories c
+      LEFT JOIN subcategories s ON c.id = s.category_id
+      LEFT JOIN products p ON c.id = p.category_id
+      GROUP BY c.id
+      ORDER BY c.name
+    `);
     res.json({ categories: rows });
   } catch (err) {
     console.error('Get categories error', err);

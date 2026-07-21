@@ -10,17 +10,17 @@ import { useSearchParams } from 'react-router-dom';
 const Products = () => {
     const [searchParams] = useSearchParams();
     const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
     const [totalProducts, setTotalProducts] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    // dynamic lists for filters
-
     // Filters state
     const [filters, setFilters] = useState({
         category_id: "",
+        subcategory_id: "",
         min_price: 0,
         max_price: 1000,
         promotion: false,
@@ -47,7 +47,18 @@ const Products = () => {
                 console.error("Error fetching categories:", err);
             }
         };
+        
+        const fetchSubcategories = async () => {
+            try {
+                const res = await axios.get(`${SERVER}/subcategories`);
+                setSubcategories(res.data.subcategories);
+            } catch (err) {
+                console.error("Error fetching subcategories:", err);
+            }
+        };
+        
         fetchCategories();
+        fetchSubcategories();
     }, []);
 
     useEffect(() => {
@@ -72,8 +83,21 @@ const Products = () => {
     }, [filters, currentPage]);
 
     const updateFilter = (key, value) => {
-        setFilters(prev => ({ ...prev, [key]: value }));
+        setFilters(prev => {
+            const updated = { ...prev, [key]: value };
+            // Reset subcategory when category changes
+            if (key === 'category_id') {
+                updated.subcategory_id = '';
+            }
+            return updated;
+        });
         setCurrentPage(1);
+    };
+    
+    // Get filtered subcategories based on selected category
+    const getFilteredSubcategories = () => {
+        if (!filters.category_id) return subcategories;
+        return subcategories.filter(sub => sub.category_id === parseInt(filters.category_id));
     };
 
     // Toggle checkbox for arrays
@@ -140,6 +164,37 @@ const Products = () => {
                                         </label>
                                     </div>
                                 </div>
+
+                                {/* Subcategories */}
+                                {filters.category_id && getFilteredSubcategories().length > 0 && (
+                                    <div className="filter-section">
+                                        <h4>Sous-catégories</h4>
+                                        <div className="category-checkboxes">
+                                            {getFilteredSubcategories().map((subcat) => (
+                                                <label key={subcat.id} className="checkbox-label">
+                                                    <input
+                                                        type="radio"
+                                                        name="subcategory"
+                                                        value={subcat.id}
+                                                        checked={filters.subcategory_id === String(subcat.id)}
+                                                        onChange={(e) => updateFilter("subcategory_id", e.target.value)}
+                                                    />
+                                                    <span>{subcat.name}</span>
+                                                </label>
+                                            ))}
+                                            <label className="checkbox-label">
+                                                <input
+                                                    type="radio"
+                                                    name="subcategory"
+                                                    value=""
+                                                    checked={filters.subcategory_id === ""}
+                                                    onChange={() => updateFilter("subcategory_id", "")}
+                                                />
+                                                <span>Toutes</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Price */}
                                 <div className="filter-section">
@@ -208,6 +263,7 @@ const Products = () => {
                                         onClick={() =>
                                             setFilters({
                                                 category_id: "",
+                                                subcategory_id: "",
                                                 min_price: 0,
                                                 max_price: 1000,
                                                 promotion: false,

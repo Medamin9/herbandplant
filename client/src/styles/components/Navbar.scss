@@ -342,6 +342,8 @@
 // Media queries for responsiveness
 @media (max-width: 768px) {
     .navbar {
+        border-bottom: 1px solid #d3d3d3 !important;
+        
         .navbar-container {
             padding: 1rem 0;
             width: 90%;

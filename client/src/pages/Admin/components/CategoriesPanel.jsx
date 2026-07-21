@@ -1,18 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { SERVER } from '../../../hooks/config';
-import { MdAdd, MdEdit, MdDelete, MdImage, MdUpload, MdClose } from 'react-icons/md';
+import { MdAdd, MdEdit, MdDelete, MdImage, MdUpload, MdClose, MdExpandMore, MdExpandLess } from 'react-icons/md';
 import '../../../styles/pages/Admins/components/CategoriesPanel.scss';
 
 const CategoriesPanel = () => {
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [showSubcategoryForm, setShowSubcategoryForm] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [editingSubcategory, setEditingSubcategory] = useState(null);
+  const [selectedCategoryForSub, setSelectedCategoryForSub] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState({});
   const [formData, setFormData] = useState({
     name: ''
+  });
+  const [subcategoryFormData, setSubcategoryFormData] = useState({
+    name: '',
+    category_id: ''
   });
   const [imageFile, setImageFile] = useState(null);
   const [existingImage, setExistingImage] = useState('');
@@ -22,6 +31,7 @@ const CategoriesPanel = () => {
 
   useEffect(() => {
     fetchCategories();
+    fetchSubcategories();
   }, []);
 
   const fetchCategories = async () => {
@@ -36,11 +46,31 @@ const CategoriesPanel = () => {
     }
   };
 
+  const fetchSubcategories = async () => {
+    try {
+      const response = await axios.get(`${SERVER}/subcategories`);
+      setSubcategories(response.data.subcategories);
+    } catch (err) {
+      console.error('Failed to fetch subcategories', err);
+    }
+  };
+
+  const toggleCategory = (categoryId) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryId]: !prev[categoryId]
+    }));
+  };
+
+  const getSubcategoriesForCategory = (categoryId) => {
+    return subcategories.filter(sub => sub.category_id === categoryId);
+  };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
-      setExistingImage(''); // Clear existing image when new file is selected
+      setExistingImage('');
     }
   };
 
@@ -89,11 +119,49 @@ const CategoriesPanel = () => {
     }
   };
 
+  const handleSubcategorySubmit = async (e) => {
+    e.preventDefault();
+    setUploading(true);
+    setError('');
+    setSuccessMessage('');
+    
+    try {
+      if (editingSubcategory) {
+        await axios.put(`${SERVER}/subcategories/${editingSubcategory.id}`, subcategoryFormData, {
+          withCredentials: true
+        });
+        setSuccessMessage('Subcategory updated successfully!');
+      } else {
+        await axios.post(`${SERVER}/subcategories`, subcategoryFormData, {
+          withCredentials: true
+        });
+        setSuccessMessage('Subcategory created successfully!');
+      }
+
+      setTimeout(() => {
+        setShowSubcategoryForm(false);
+        setEditingSubcategory(null);
+        setSelectedCategoryForSub(null);
+        resetSubcategoryForm();
+        fetchSubcategories();
+      }, 1000);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to save subcategory');
+      console.error(err);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const resetForm = () => {
     setFormData({ name: '' });
     setImageFile(null);
     setExistingImage('');
     if (imageRef.current) imageRef.current.value = '';
+  };
+
+  const resetSubcategoryForm = () => {
+    setSubcategoryFormData({ name: '', category_id: '' });
   };
 
   const handleEdit = (category) => {
@@ -105,13 +173,34 @@ const CategoriesPanel = () => {
     setSuccessMessage('');
   };
 
+  const handleEditSubcategory = (subcategory) => {
+    setEditingSubcategory(subcategory);
+    setSubcategoryFormData({
+      name: subcategory.name,
+      category_id: subcategory.category_id
+    });
+    setShowSubcategoryForm(true);
+    setError('');
+    setSuccessMessage('');
+  };
+
+  const handleAddSubcategory = (categoryId) => {
+    setSelectedCategoryForSub(categoryId);
+    setSubcategoryFormData({
+      name: '',
+      category_id: categoryId
+    });
+    setShowSubcategoryForm(true);
+    setError('');
+    setSuccessMessage('');
+  };
+
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     
     try {
       await axios.delete(`${SERVER}/categories/${id}`, {
-        withCredentials: true,
-        headers: { 'Content-Type': 'multipart/form-data' }
+        withCredentials: true
       });
       setSuccessMessage('Category deleted successfully!');
       fetchCategories();
@@ -120,6 +209,24 @@ const CategoriesPanel = () => {
         setError(err.response.data.error);
       } else {
         setError('Failed to delete category');
+      }
+    }
+  };
+
+  const handleDeleteSubcategory = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this subcategory?')) return;
+    
+    try {
+      await axios.delete(`${SERVER}/subcategories/${id}`, {
+        withCredentials: true
+      });
+      setSuccessMessage('Subcategory deleted successfully!');
+      fetchSubcategories();
+    } catch (err) {
+      if (err.response?.status === 400) {
+        setError(err.response.data.error);
+      } else {
+        setError('Failed to delete subcategory');
       }
     }
   };
@@ -143,8 +250,8 @@ const CategoriesPanel = () => {
     <div className="categories-panel">
       <div className="panel-header">
         <div className="header-content">
-          <h2>Categories Management</h2>
-          <p>Create and manage product categories</p>
+          <h2>Categories & Subcategories Management</h2>
+          <p>Create and manage product categories and their subcategories</p>
         </div>
         <button 
           className="btn-primary add-category-btn"
@@ -172,6 +279,7 @@ const CategoriesPanel = () => {
         </div>
       )}
 
+      {/* Category Form Modal */}
       {showForm && (
         <div className="modal-overlay">
           <div className="modal">
@@ -264,6 +372,80 @@ const CategoriesPanel = () => {
         </div>
       )}
 
+      {/* Subcategory Form Modal */}
+      {showSubcategoryForm && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h3>{editingSubcategory ? 'Edit Subcategory' : 'Add New Subcategory'}</h3>
+              <button className="close-modal" onClick={() => {
+                setShowSubcategoryForm(false);
+                setEditingSubcategory(null);
+                setSelectedCategoryForSub(null);
+                resetSubcategoryForm();
+              }}>
+                <MdClose />
+              </button>
+            </div>
+            <form onSubmit={handleSubcategorySubmit}>
+              <div className="form-group">
+                <label>Parent Category *</label>
+                <select
+                  value={subcategoryFormData.category_id}
+                  onChange={(e) => setSubcategoryFormData({...subcategoryFormData, category_id: e.target.value})}
+                  required
+                >
+                  <option value="">Select a category</option>
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Subcategory Name *</label>
+                <input
+                  type="text"
+                  value={subcategoryFormData.name}
+                  onChange={(e) => setSubcategoryFormData({...subcategoryFormData, name: e.target.value})}
+                  placeholder="Enter subcategory name"
+                  required
+                />
+              </div>
+
+              <div className="form-actions">
+                <button 
+                  type="button" 
+                  className="btn-secondary"
+                  onClick={() => {
+                    setShowSubcategoryForm(false);
+                    setEditingSubcategory(null);
+                    setSelectedCategoryForSub(null);
+                    resetSubcategoryForm();
+                  }}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn-primary" 
+                  disabled={uploading}
+                >
+                  {uploading ? (
+                    <>
+                      <div className="spinner"></div>
+                      {editingSubcategory ? 'Updating...' : 'Creating...'}
+                    </>
+                  ) : (
+                    editingSubcategory ? 'Update Subcategory' : 'Create Subcategory'
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {categories.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">
@@ -279,50 +461,94 @@ const CategoriesPanel = () => {
           </button>
         </div>
       ) : (
-        <div className="categories-grid">
-          {categories.map(category => (
-            <div key={category.id} className="category-card">
-              <div className="card-header">
-                <div className="category-image">
-                  {category.image ? (
-                    <img src={`${SERVER}${category.image}`} alt={category.name} />
-                  ) : (
-                    <div className="image-placeholder">
-                      <MdImage />
+        <div className="categories-list">
+          {categories.map(category => {
+            const categorySubcategories = getSubcategoriesForCategory(category.id);
+            const isExpanded = expandedCategories[category.id];
+            
+            return (
+              <div key={category.id} className="category-item">
+                <div className="category-main">
+                  <div className="category-info">
+                    <div className="category-image">
+                      {category.image ? (
+                        <img src={`${SERVER}${category.image}`} alt={category.name} />
+                      ) : (
+                        <div className="image-placeholder">
+                          <MdImage />
+                        </div>
+                      )}
                     </div>
-                  )}
+                    <div className="category-details">
+                      <h4>{category.name}</h4>
+                      <p>{category.products_count || 0} products · {categorySubcategories.length} subcategories</p>
+                    </div>
+                  </div>
+                  
+                  <div className="category-actions">
+                    {categorySubcategories.length > 0 && (
+                      <button 
+                        className="btn-icon"
+                        onClick={() => toggleCategory(category.id)}
+                        title={isExpanded ? 'Collapse' : 'Expand'}
+                      >
+                        {isExpanded ? <MdExpandLess /> : <MdExpandMore />}
+                      </button>
+                    )}
+                    <button 
+                      className="btn-icon"
+                      onClick={() => handleAddSubcategory(category.id)}
+                      title="Add Subcategory"
+                    >
+                      <MdAdd />
+                    </button>
+                    <button 
+                      className="btn-icon"
+                      onClick={() => handleEdit(category)}
+                      title="Edit Category"
+                    >
+                      <MdEdit />
+                    </button>
+                    <button 
+                      className="btn-icon danger"
+                      onClick={() => handleDelete(category.id)}
+                      title="Delete Category"
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
                 </div>
-                <div className="action-overlay">
-                  <button 
-                    className="btn-icon"
-                    onClick={() => handleEdit(category)}
-                  >
-                    <MdEdit />
-                  </button>
-                </div>
+
+                {isExpanded && categorySubcategories.length > 0 && (
+                  <div className="subcategories-list">
+                    {categorySubcategories.map(subcategory => (
+                      <div key={subcategory.id} className="subcategory-item">
+                        <div className="subcategory-info">
+                          <span className="subcategory-name">{subcategory.name}</span>
+                        </div>
+                        <div className="subcategory-actions">
+                          <button 
+                            className="btn-icon-small"
+                            onClick={() => handleEditSubcategory(subcategory)}
+                            title="Edit Subcategory"
+                          >
+                            <MdEdit />
+                          </button>
+                          <button 
+                            className="btn-icon-small danger"
+                            onClick={() => handleDeleteSubcategory(subcategory.id)}
+                            title="Delete Subcategory"
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              
-              <div className="card-content">
-                <h4>{category.name}</h4>
-                <p>{category.products_count || 0} products</p>
-              </div>
-              
-              <div className="card-actions">
-                <button 
-                  className="btn-icon"
-                  onClick={() => handleEdit(category)}
-                >
-                  <MdEdit />
-                </button>
-                <button 
-                  className="btn-icon danger"
-                  onClick={() => handleDelete(category.id)}
-                >
-                  <MdDelete />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

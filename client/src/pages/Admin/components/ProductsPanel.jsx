@@ -10,6 +10,7 @@ import '../../../styles/pages/Admins/components/ProductsPanel.scss';
 const ProductsPanel = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -33,7 +34,8 @@ const ProductsPanel = () => {
     new_product: false,
     top_vente: false,
     stock_repture: false,
-    category_id: ''
+    category_id: '',
+    subcategory_id: ''
   });
   const [bannerFile, setBannerFile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]);
@@ -46,6 +48,7 @@ const ProductsPanel = () => {
   useEffect(() => {
     fetchProducts();
     fetchCategories();
+    fetchSubcategories();
   }, []);
 
   const fetchProducts = async () => {
@@ -67,6 +70,20 @@ const ProductsPanel = () => {
     } catch (err) {
       console.error('Failed to fetch categories');
     }
+  };
+
+  const fetchSubcategories = async () => {
+    try {
+      const response = await axios.get(`${SERVER}/subcategories`);
+      setSubcategories(response.data.subcategories);
+    } catch (err) {
+      console.error('Failed to fetch subcategories');
+    }
+  };
+  
+  const getFilteredSubcategories = () => {
+    if (!formData.category_id) return [];
+    return subcategories.filter(sub => sub.category_id === parseInt(formData.category_id));
   };
 
   const handleBannerUpload = (e) => {
@@ -162,7 +179,8 @@ const ProductsPanel = () => {
       new_product: false,
       top_vente: false,
       stock_repture: false,
-      category_id: ''
+      category_id: '',
+      subcategory_id: ''
     });
     setBannerFile(null);
     setImageFiles([]);
@@ -508,7 +526,7 @@ const ProductsPanel = () => {
                   <label>Category</label>
                   <select
                     value={formData.category_id}
-                    onChange={(e) => setFormData({...formData, category_id: e.target.value})}
+                    onChange={(e) => setFormData({...formData, category_id: e.target.value, subcategory_id: ''})}
                   >
                     <option value="">Select Category</option>
                     {categories.map(cat => (
@@ -516,6 +534,21 @@ const ProductsPanel = () => {
                     ))}
                   </select>
                 </div>
+
+                {formData.category_id && getFilteredSubcategories().length > 0 && (
+                  <div className="form-group">
+                    <label>Subcategory</label>
+                    <select
+                      value={formData.subcategory_id}
+                      onChange={(e) => setFormData({...formData, subcategory_id: e.target.value})}
+                    >
+                      <option value="">Select Subcategory (Optional)</option>
+                      {getFilteredSubcategories().map(subcat => (
+                        <option key={subcat.id} value={subcat.id}>{subcat.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 <div className="form-group">
                   <label>Promotion (%)</label>

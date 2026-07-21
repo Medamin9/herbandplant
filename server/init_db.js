@@ -35,6 +35,16 @@ async function init() {
         );
     `);
 
+    // subcategories table
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS subcategories (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            category_id INT REFERENCES categories(id) ON DELETE CASCADE,
+            created_at TIMESTAMPTZ DEFAULT NOW()
+        );
+    `);
+
     await db.query(`
         CREATE TABLE IF NOT EXISTS products (
             id SERIAL PRIMARY KEY,
@@ -52,6 +62,7 @@ async function init() {
             top_vente BOOLEAN DEFAULT FALSE,
             stock_repture BOOLEAN DEFAULT FALSE,
             category_id INT REFERENCES categories(id) ON DELETE SET NULL,
+            subcategory_id INT REFERENCES subcategories(id) ON DELETE SET NULL,
             created_at TIMESTAMPTZ DEFAULT NOW()
         );
     `);

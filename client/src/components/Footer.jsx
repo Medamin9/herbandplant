@@ -55,7 +55,7 @@ const Footer = () => {
                 <p> 
                     <img src={wetekup} alt='wetekup logo minimal' />
                     © {new Date().getFullYear()} Herb and Plant. All rights reserved. Website designed by  
-                    <a href='#' target='_blank'>WE TEKUP</a>
+                    <a href='https://www.we-tekup.com/' target='_blank'>WE TEKUP</a>
                 </p>
             </div>
         </footer>

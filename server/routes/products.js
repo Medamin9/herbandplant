@@ -58,48 +58,57 @@ const uploadFields = upload.fields([
 router.get('/', async (req, res) => {
   try {
     const {
-      category,
-      minPrice,
-      maxPrice,
-      onPromotion,
-      isNew,
-      isTopSelling,
-      search
+      category_id,
+      subcategory_id,
+      min_price,
+      max_price,
+      promotion,
+      new_product,
+      top_vente,
+      search,
+      page = 1,
+      limit = 12
     } = req.query;
 
     let query = `
-      SELECT p.*, c.name as category_name 
+      SELECT p.*, c.name as category_name, s.name as subcategory_name
       FROM products p 
-      LEFT JOIN categories c ON p.category_id = c.id 
+      LEFT JOIN categories c ON p.category_id = c.id
+      LEFT JOIN subcategories s ON p.subcategory_id = s.id
       WHERE 1=1
     `;
     const params = [];
     let paramIndex = 1;
 
-    if (category) {
-      query += ` AND c.name ILIKE $${paramIndex++}`;
-      params.push(`%${category}%`);
+    if (category_id) {
+      query += ` AND p.category_id = $${paramIndex++}`;
+      params.push(parseInt(category_id));
     }
 
-    if (minPrice) {
+    if (subcategory_id) {
+      query += ` AND p.subcategory_id = $${paramIndex++}`;
+      params.push(parseInt(subcategory_id));
+    }
+
+    if (min_price) {
       query += ` AND p.price >= $${paramIndex++}`;
-      params.push(parseFloat(minPrice));
+      params.push(parseFloat(min_price));
     }
 
-    if (maxPrice) {
+    if (max_price) {
       query += ` AND p.price <= $${paramIndex++}`;
-      params.push(parseFloat(maxPrice));
+      params.push(parseFloat(max_price));
     }
 
-    if (onPromotion === 'true') {
+    if (promotion === 'true') {
       query += ` AND p.promotion > 0`;
     }
 
-    if (isNew === 'true') {
+    if (new_product === 'true') {
       query += ` AND p.new_product = true`;
     }
 
-    if (isTopSelling === 'true') {
+    if (top_vente === 'true') {
       query += ` AND p.top_vente = true`;
     }
 
@@ -109,20 +118,43 @@ router.get('/', async (req, res) => {
       paramIndex++;
     }
 
-    // ✅ Custom ordering logic
+    // Count total products for pagination
+    const countQuery = query.replace(
+      'SELECT p.*, c.name as category_name, s.name as subcategory_name',
+      'SELECT COUNT(*) as total'
+    );
+    const countResult = await db.query(countQuery, params);
+    const totalProducts = parseInt(countResult.rows[0].total);
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    // Custom ordering logic
     query += `
       ORDER BY 
         CASE 
-          WHEN p.promotion > 0 THEN 1       -- promos first
-          WHEN p.new_product = true THEN 2  -- then new
-          WHEN p.stock_repture = true THEN 4 -- out of stock last
-          ELSE 3                            -- regular in the middle
+          WHEN p.promotion > 0 THEN 1
+          WHEN p.new_product = true THEN 2
+          WHEN p.stock_repture = true THEN 4
+          ELSE 3
         END,
         p.created_at DESC
     `;
 
+    // Add pagination
+    const offset = (page - 1) * limit;
+    query += ` LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
+    params.push(limit, offset);
+
     const { rows } = await db.query(query, params);
-    res.json({ products: rows });
+    
+    res.json({ 
+      products: rows,
+      pagination: {
+        current_page: parseInt(page),
+        total_pages: totalPages,
+        total_products: totalProducts,
+        per_page: parseInt(limit)
+      }
+    });
   } catch (err) {
     console.error('Get products error', err);
     res.status(500).json({ error: 'Server error' });
@@ -143,7 +175,7 @@ router.get('/recommendations/:id', async (req, res) => {
         CASE WHEN p.top_vente = true THEN 1 ELSE 2 END,
         RANDOM()
       LIMIT 3;
-  `;
+    `;
   
     const { rows } = await db.query(query, [id]);
     res.json({ products: rows });
@@ -243,9 +275,10 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { rows } = await db.query(`
-      SELECT p.*, c.name as category_name 
+      SELECT p.*, c.name as category_name, s.name as subcategory_name
       FROM products p 
       LEFT JOIN categories c ON p.category_id = c.id 
+      LEFT JOIN subcategories s ON p.subcategory_id = s.id
       WHERE p.id = $1
     `, [id]);
 
@@ -275,7 +308,8 @@ router.post('/', authenticateMiddleware, uploadFields, async (req, res) => {
       new_product,
       top_vente,
       stock_repture,
-      category_id
+      category_id,
+      subcategory_id
     } = req.body;
 
     // Process uploaded files
@@ -307,8 +341,8 @@ router.post('/', authenticateMiddleware, uploadFields, async (req, res) => {
 
     const { rows } = await db.query(`
       INSERT INTO products 
-      (name, price, volumes, description, long_description, composition, usage, banner, images, promotion, new_product, top_vente, stock_repture, category_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      (name, price, volumes, description, long_description, composition, usage, banner, images, promotion, new_product, top_vente, stock_repture, category_id, subcategory_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING *
     `, [
       name, 
@@ -324,7 +358,8 @@ router.post('/', authenticateMiddleware, uploadFields, async (req, res) => {
       new_product === 'true', 
       top_vente === 'true', 
       stock_repture === 'true',
-      category_id
+      category_id || null,
+      subcategory_id || null
     ]);
 
     res.status(201).json({ product: rows[0] });
@@ -360,7 +395,8 @@ router.put('/:id', authenticateMiddleware, uploadFields, async (req, res) => {
       new_product,
       top_vente,
       stock_repture,
-      category_id
+      category_id,
+      subcategory_id
     } = req.body;
 
     // Get current product to check for existing files
@@ -415,27 +451,29 @@ router.put('/:id', authenticateMiddleware, uploadFields, async (req, res) => {
     }
 
     const { rows } = await db.query(`
-        UPDATE products 
-        SET name = $1, price = $2, volumes = $3, description = $4, banner = $5, 
-        images = $6, promotion = $7, new_product = $8, top_vente = $9, stock_repture = $10, category_id = $11, long_description = $12, composition = $13, usage = $14
-        WHERE id = $15
-        RETURNING *
-        `, [
-        name, 
-        parseFloat(price), 
-        volumesArray, 
-        description, 
-        bannerPath, 
-        imagesPaths, 
-        parseFloat(promotion || 0), 
-        new_product === 'true', 
-        top_vente === 'true', 
-        stock_repture === 'true', 
-        category_id, 
-        long_description, 
-        composition, 
-        usage,
-        id
+      UPDATE products 
+      SET name = $1, price = $2, volumes = $3, description = $4, banner = $5, 
+      images = $6, promotion = $7, new_product = $8, top_vente = $9, stock_repture = $10, 
+      category_id = $11, long_description = $12, composition = $13, usage = $14, subcategory_id = $15
+      WHERE id = $16
+      RETURNING *
+    `, [
+      name, 
+      parseFloat(price), 
+      volumesArray, 
+      description, 
+      bannerPath, 
+      imagesPaths, 
+      parseFloat(promotion || 0), 
+      new_product === 'true', 
+      top_vente === 'true', 
+      stock_repture === 'true', 
+      category_id || null, 
+      long_description, 
+      composition, 
+      usage,
+      subcategory_id || null,
+      id
     ]);
 
     res.json({ product: rows[0] });
