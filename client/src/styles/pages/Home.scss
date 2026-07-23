@@ -811,7 +811,7 @@
 
 @media screen and (max-width: 576px) {
     .banner-container{
-        height: 70vh;
+        height: 80vh;
         .banner-title{
             display: flex;
             flex-direction: column;
@@ -894,6 +894,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-top: 2rem;
 
         h2 {
             font-family: $palatino;
